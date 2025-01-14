@@ -1,0 +1,14 @@
+Django
+python-dotenv
+djangorestframework
+opencv-python
+numpy
+Pillow
+django-cors-headers
+django-redis
+gunicorn
+face-recognition
+mysql-connector-python
+langchain-ollama
+python-engineio
+python-socketio
