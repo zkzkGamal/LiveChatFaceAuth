@@ -17,18 +17,18 @@ ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS")]
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'rest_framework',
     'Chat',
     'Auth',
-    'socketio',
-    'daphne',
-    "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "corsheaders",
+    
 ]
 
 MIDDLEWARE = [
@@ -67,7 +67,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'LiveChatFaceAuth.wsgi.application'
 ASGI_APPLICATION = 'LiveChatFaceAuth.asgi.application'
-
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with the request (if your frontend requires it)
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -120,3 +129,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CHANNELS_WS_PROTOCOLS = ["graphql-ws"]
+

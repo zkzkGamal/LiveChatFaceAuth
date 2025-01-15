@@ -39,11 +39,20 @@ class JWTAuthMiddleware(BaseMiddleware):
         from django.contrib.auth import get_user_model
         User = get_user_model()
         data = scope.get("subprotocols") if scope.get("subprotocols") else None
-
         if data:
             if isinstance(data, list):
-                print(data)
+                if len(data) == 4 :
+                    try:
+                        msg , token , key , session = data[0] , data[1] , data[2] , data[3]
+                        print(key)
+                        if key == "test":
+                            scope['session'] = session
+                            return await super().__call__(scope, receive, send)
+                    except Exception as e:
+                        raise 
+                else:
+                    raise 
             else:
-                return JsonResponse('invalid token')        
-        return await super().__call__(scope, receive, send)
+                raise 
+        raise 
         
