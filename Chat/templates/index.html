@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+    <form action=""  id="tes">
+        <input type="submit"  name="submit">
+    </form>
     <script>
 
         socket = new WebSocket('ws://127.0.0.1:8000/ws/chat/1/' , ["helo" , "1212" , "test" , "121212"])
@@ -18,11 +21,19 @@
         }
 
         h = () =>{
-            socket.chat_message(JSON.stringify({
-                'message': "tesst",
-            })
-            )
+            if (socket.readyState === WebSocket.OPEN){
+                socket.send(JSON.stringify({
+                    'message': "helo",
+                }))
+            }
         }
+
+        document.getElementById("tes").addEventListener(
+            'submit' , (e) => {
+                e.preventDefault();
+                h()
+            }
+        )
 
     </script>
 </body>
