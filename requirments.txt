@@ -10,5 +10,8 @@ gunicorn
 face-recognition
 mysql-connector-python
 langchain-ollama
-python-engineio
-python-socketio
+didkit
+django-mongodb-engine
+mongoengine
+PyMongo
+djangotoolbox

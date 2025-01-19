@@ -5,3 +5,5 @@ Open-source and free, it's a platform for learning and building innovative commu
 
 ### make the setup for the ws 
 done setup the simple ws protocal 
+### make the setup for nosql db using mangodb
+
