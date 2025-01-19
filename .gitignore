@@ -1,0 +1,7 @@
+LiveChat/Chat/__pycache__/
+LiveChat/Chat/migratios/
+LiveChat/LiveChatFaceAuth/__pycache__/
+Auth/Auth/__pycache__/
+Auth/Auth/migratios/
+Auth/AuthApp/__pycache__/
+Auth/db.sqlite3
