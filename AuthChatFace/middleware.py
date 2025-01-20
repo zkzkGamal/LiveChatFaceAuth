@@ -24,16 +24,29 @@ class ApiKeyMiddleware:
         if  request.path.startswith('/uploads/') or\
                 request.path.endswith('/favicon.ico') :
             return self.get_response(request)
-        if not api_key:return self.get_response(request)
+        if not api_key and 'X-CSRFToken' not in request.headers:return self.get_response(request)
         if api_key != key:return self.get_response(request)
-        elif api_key == key :return self.get_response(request)
-
+        elif api_key == key and  'X-CSRFToken' in request.headers :return self.csrf_middleware(request)  # for web auth 
+        elif  api_key == key and  'X-CSRFToken' not in request.headers :return self.get_response(request)  # for mobile auth
+        else: return self.get_response(request)
 
 # middlewares.py
 from channels.middleware import BaseMiddleware
 from channels.db import database_sync_to_async
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.exceptions import PermissionDenied
+
+@database_sync_to_async
+def get_user(token):
+    try:
+        from rest_framework_simplejwt.authentication import JWTAuthentication
+        validated_token = JWTAuthentication().get_validated_token(token)
+        user = JWTAuthentication().get_user(validated_token)
+        return user
+    except AuthenticationFailed:
+        print('auth failed')
+        return None
+
 class JWTAuthMiddleware(BaseMiddleware):
     async def __call__(self, scope, receive, send):
         from django.contrib.auth import get_user_model
@@ -44,9 +57,13 @@ class JWTAuthMiddleware(BaseMiddleware):
                 if len(data) == 4 :
                     try:
                         msg , token , key , session = data[0] , data[1] , data[2] , data[3]
-                        print(key)
                         if key == "test":
                             scope['session'] = session
+                            if token != "test":
+                                user = await get_user(token)
+                                scope['user'] = user
+                            else: 
+                                scope['user'] = None
                             return await super().__call__(scope, receive, send)
                     except Exception as e:
                         raise 

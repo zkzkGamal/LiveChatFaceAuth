@@ -111,7 +111,10 @@ CHANNEL_LAYERS = {
     }
 }
 
-
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'X-Key',
+]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with the request (if your frontend requires it)
 CORS_ALLOW_METHODS = [
