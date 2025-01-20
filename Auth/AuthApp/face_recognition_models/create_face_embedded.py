@@ -30,9 +30,11 @@ class CreateFaceEmbedded:
         self.image = self.image_handler(self.image)
         face_locations = self.__get_face_locations_using_face_recognition()
         if face_locations is None:
-            face_locations = self.__get_face_using_hera()
+            face_locations , msg = self.__get_face_using_hera()
+        if face_locations is None:
+            return "could not get face from user image please upload user face" ,400 
         face_encodings = self.__get_face_encodings()
-        return face_encodings
+        return face_encodings , 200
     
     def __get_face_locations_using_face_recognition(self):
         """
@@ -62,11 +64,11 @@ class CreateFaceEmbedded:
         gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5 , flags=2)
         if len(faces) == 0:
-            return None
+            return None , "hera"
         for (x, y, w, h) in faces:
             cropped_face = self.image[y:y+h, x:x+w]
             break 
-        return cropped_face
+        return cropped_face , "hera"
    
     def __get_face_encodings(self):
         """
@@ -77,7 +79,7 @@ class CreateFaceEmbedded:
         Returns:
             face encoding array from face_recognition to save it in the db for later use
         """
-        face_encodings = face_recognition.face_encodings(self.image)
+        face_encodings = face_recognition.face_encodings(self.image)[0]
         return face_encodings
         
         

@@ -9,4 +9,5 @@ urlpatterns = [
     # Authentication URLs
     path('login/', views.LoginUser.as_view(), name='login'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('MakeFaceEmbedded/' , views.CreateFaceEmbeddedView.as_view() , name = "CreateFace"),
 ]
