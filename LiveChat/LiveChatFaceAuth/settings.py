@@ -20,8 +20,6 @@ INSTALLED_APPS = [
     'daphne',
     'rest_framework',
     'Chat',
-    'djangotoolbox',
-    'mongoengine',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,12 +78,6 @@ CORS_ALLOW_METHODS = [
 ]
 
 # Database
-# import mongoengine
-# mongoengine.connect(
-#     db = os.getenv("mongo_name"),  
-#     host ='mongodb://localhost:27017', 
-#     username=os.getenv("mongo_user"), password = os.getenv("mongo_pass")
-# )
 
 DATABASES = {
     #    'default': {
