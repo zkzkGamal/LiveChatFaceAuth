@@ -22,6 +22,8 @@ INSTALLED_APPS = [
     'AuthApp',
     'corsheaders',
     'rest_framework',
+    'daphne',
+    'Chat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,14 +76,14 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'Auth.middleware.ApiKeyMiddleware',
+    'AuthChatFace.middleware.ApiKeyMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Auth.urls'
+ROOT_URLCONF = 'AuthChatFace.urls'
 
 TEMPLATES = [
     {
@@ -99,8 +101,27 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Auth.wsgi.application'
+WSGI_APPLICATION = 'AuthChatFace.wsgi.application'
+ASGI_APPLICATION = 'AuthChatFace.asgi.application'
+CHANNELS_WS_PROTOCOLS = ["graphql-ws"]
 
+CHANNEL_LAYERS = {
+    'default':{
+        'BACKEND':'channels.layers.InMemoryChannelLayer',
+    }
+}
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with the request (if your frontend requires it)
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
 # Database
 

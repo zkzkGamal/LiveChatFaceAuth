@@ -16,7 +16,7 @@ try:
     checker(input_type = "train")
 except Exception as e:
     logger.warning(f"faild to train the face model please try again, error: {e}")
-    exit(1)
+    # exit(1)
 
 embedder = CreateFaceEmbedded()
 # Create your views here.
@@ -103,8 +103,12 @@ class CreateFaceEmbeddedView(generics.GenericAPIView):
             code = checker(embedder_user, input_type = "register")
             if code == 400:
                 return response.Response({
-                'status_code':code , "message":"could not create user face in out models",
-            })
+                    'status_code':code , "message":"could not create user face in out models",
+                })
+            if code == 405:
+                return response.Response({
+                    'status_code':400 , "message":"this face is already exists in our models",
+                })
             embedder_user = np.array(embedder_user).tolist()
             emb_user , _ = models.UserEmbeddedImage.objects.get_or_create(embedded_image = embedder_user)
             return response.Response({
