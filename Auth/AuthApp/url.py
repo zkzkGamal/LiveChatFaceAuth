@@ -10,4 +10,6 @@ urlpatterns = [
     path('login/', views.LoginUser.as_view(), name='login'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('MakeFaceEmbedded/' , views.CreateFaceEmbeddedView.as_view() , name = "CreateFace"),
+    path('loginFaceEmbedded/' , views.LoginFaceEmbeddedView.as_view() , name = "CreateFace"),
+    
 ]
