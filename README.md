@@ -27,6 +27,7 @@ Ensure you have the following installed on your local machine:
 Clone the repository to your local machine:
 
 ``` bash
+# this is for windows 
 git clone https://github.com/zkzkGamal/LiveChatFaceAuth.git
 cd LiveChatFaceAuth
 pip install -r requirements.txt
@@ -35,6 +36,15 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+``` bash
+# this is for linux 
+git clone https://github.com/zkzkGamal/LiveChatFaceAuth.git
+cd LiveChatFaceAuth
+pip3 install -r requirements.txt
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
+```
 ### Usage
 #### Authentication
 Users will register their face via a webcam or image file.
