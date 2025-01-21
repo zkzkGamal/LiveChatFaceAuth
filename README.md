@@ -20,7 +20,6 @@ Ensure you have the following installed on your local machine:
 
 1. **Python 3.x** (Preferably the latest stable version)
 2. **Django 4.x** (or the version compatible with the app)
-3. **Node.js** (For WebSocket server and frontend dependencies)
 4. **MySQL** or **PostgreSQL** (Database for Django)
 
 ### 1. Clone the Repository
@@ -31,13 +30,16 @@ Clone the repository to your local machine:
 git clone https://github.com/zkzkGamal/LiveChatFaceAuth.git
 cd LiveChatFaceAuth
 pip install -r requirements.txt
+python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
 
 ### Usage
 #### Authentication
-Users will register their face via a webcam or image file. The system then stores their facial embeddings for future authentication. The app uses face_recognition to compare the facial features with the stored ones for secure login.
+Users will register their face via a webcam or image file.
+The system then stores their facial embeddings for future authentication.
+The app uses face_recognition to compare the facial features with the stored ones for secure login.
 
 #### Real-Time Messaging
 The app uses WebSockets for real-time chat between users. Messages will be sent instantly as they are typed, with no need to refresh the page.
