@@ -1,4 +1,5 @@
 # LiveChatFaceAuth
+Face Recognition Authentication App using face_recognition module and jwt auth with encription and LiveChating
 
 **LiveChatFaceAuth** is chat application that uses **facial recognition** for secure, password-free user authentication. It ensures privacy with **end-to-end encryption** and offers real-time communication through **WebSockets**. The application is built using **Django** for the backend and **MySQL** (or PostgreSQL) for the database. 
 
