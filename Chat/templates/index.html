@@ -11,7 +11,7 @@
     </form>
     <script>
 
-        socket = new WebSocket('ws://127.0.0.1:8000/ws/chat/1/' , ["helo" , "1212" , "test" , "121212"])
+        socket = new WebSocket('ws://127.0.0.1:8000/ws/chat/1/' , ["helo" , "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4ODI3Mjg0LCJpYXQiOjE3MzgwNjg4ODQsImp0aSI6IjRhMGUzOWQ1YzcwNDRlMWViNjlmMzAzMDMyODI4MmVkIiwidXNlcl9pZCI6MjQsInVzZXIiOnsidXNlcl9pZCI6MjQsInVzZXJuYW1lIjoiemthcmlhIn0sInByb2ZpbGVfaWQiOjI0LCJwaG90byI6IiJ9.RdmB36PkEnJ5x28kZip4FuUgQdrsfsFwQG2-LpVsNH4" , "test" , "121212"])
         socket.onopen = function (event) {
             console.log("WebSocket connection opened:");
         };

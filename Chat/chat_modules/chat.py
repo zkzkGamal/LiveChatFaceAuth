@@ -1,17 +1,21 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from Chat.chat_modules.chech_auth import ChechAuth
 
+checker = ChechAuth()
 class ChatConsumer(AsyncWebsocketConsumer):    
     async def connect(self):
         self.room_name = self.scope['session']
         self.room_group_name = f"chat_{self.room_name}"
-        print(self.room_group_name)
-
+        if not checker(user = self.scope['user'], session = self.scope['session'] , key =self.scope["key"]):
+            self.close(code=405 ,reason= "invalid argumants")
+            return "invalid argumants"
         # Join the room group
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
+        
         await self.accept("test")
     
         

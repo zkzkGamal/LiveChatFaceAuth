@@ -34,7 +34,6 @@ class ApiKeyMiddleware:
 from channels.middleware import BaseMiddleware
 from channels.db import database_sync_to_async
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework.exceptions import PermissionDenied
 
 @database_sync_to_async
 def get_user(token):
@@ -44,7 +43,6 @@ def get_user(token):
         user = JWTAuthentication().get_user(validated_token)
         return user
     except AuthenticationFailed:
-        print('auth failed')
         return None
 
 class JWTAuthMiddleware(BaseMiddleware):
@@ -52,24 +50,15 @@ class JWTAuthMiddleware(BaseMiddleware):
         from django.contrib.auth import get_user_model
         User = get_user_model()
         data = scope.get("subprotocols") if scope.get("subprotocols") else None
-        if data:
-            if isinstance(data, list):
-                if len(data) == 4 :
-                    try:
-                        msg , token , key , session = data[0] , data[1] , data[2] , data[3]
-                        if key == "test":
-                            scope['session'] = session
-                            if token != "test":
-                                user = await get_user(token)
-                                scope['user'] = user
-                            else: 
-                                scope['user'] = None
-                            return await super().__call__(scope, receive, send)
-                    except Exception as e:
-                        raise 
-                else:
-                    raise 
-            else:
-                raise 
-        raise 
+        if isinstance(data, list) and len(data) == 4:
+            _, token, key, session = data
+            user = await get_user(token)
+            scope.update({
+                'user': user,
+                'session': session,
+                'key': key
+            })
+        else:
+            scope.update({'user': None, 'session': None, 'key': None})
         
+        return await super().__call__(scope, receive, send)
