@@ -31,6 +31,7 @@ Clone the repository to your local machine:
 git clone https://github.com/zkzkGamal/LiveChatFaceAuth.git
 cd LiveChatFaceAuth
 pip install -r requirements.txt
+py -c  "from cryptography.fernet import Fernet ; key = Fernet.generate_key(); print(key.decode())"
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
@@ -41,6 +42,7 @@ python manage.py runserver
 git clone https://github.com/zkzkGamal/LiveChatFaceAuth.git
 cd LiveChatFaceAuth
 pip3 install -r requirements.txt
+python3 -c  "from cryptography.fernet import Fernet ; key = Fernet.generate_key(); print(key.decode())"
 python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py runserver

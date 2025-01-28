@@ -11,5 +11,6 @@ urlpatterns = [
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('MakeFaceEmbedded/' , views.CreateFaceEmbeddedView.as_view() , name = "CreateFace"),
     path('loginFaceEmbedded/' , views.LoginFaceEmbeddedView.as_view() , name = "CreateFace"),
+    path('chech_auth/' , views.ChechAuth.as_view() , name = "Auth"),
     
 ]

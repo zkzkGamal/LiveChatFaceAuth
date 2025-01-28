@@ -1,3 +1,4 @@
+from cryptography.fernet import Fernet
 from django.shortcuts import render , redirect
 from django.http import JsonResponse
 import numpy as np
@@ -6,7 +7,6 @@ from . import serializers
 from django.urls import reverse
 from AuthApp.face_recognition_models.create_face_embedded import CreateFaceEmbedded
 from . import models
-import json
 from AuthApp.face_recognition_models.check_embedded_user_similarty import CheckEmbeddedUserSimilarty
 from django.contrib.auth.models import User
 import logging
@@ -26,7 +26,14 @@ def index(request):
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
+import dotenv , os
 
+dotenv.load_dotenv('AuthChatFace/.env')
+
+cipher = Fernet(os.getenv("cipher").encode())
+
+def encrypt_text(text):
+    return cipher.encrypt(text.encode()).decode()
 
 class RegisterUserView(viewsets.ViewSet):
     serializer_class = serializers.UserRegisterSerializer
@@ -44,8 +51,8 @@ class RegisterUserView(viewsets.ViewSet):
                 "status_code":200,
                 "message":"success",
                 "data":{
-                    'refresh': str(refresh),
-                    'access': str(access_token),
+                    'refresh': encrypt_text(str(refresh)),
+                    'access': encrypt_text(str(access_token)),
                     "active_face_recognition":active_face_recognition
                 }
             }
@@ -78,7 +85,10 @@ class LoginUser(TokenObtainPairView, generics.GenericAPIView):
                     response_data =  super().post(request, *args, **kwargs)
                     return response.Response({
                         'status_code':200 , "message":"success",
-                        "data":response_data.data
+                        "data": {
+                            'refresh': encrypt_text(str(response_data.data['refresh'])),
+                            'access': encrypt_text(str(response_data.data['access'])),
+                        }
                     })
             
             else:return response.Response(serializers.custom_error_message(serializer.errors) , status=status.HTTP_200_OK)
@@ -148,8 +158,8 @@ class LoginFaceEmbeddedView(generics.GenericAPIView):
                         "status_code":200,
                         "message":"success",
                         "data":{
-                            'refresh': str(refresh),
-                            'access': str(access_token),
+                            'refresh': encrypt_text(str(refresh)),
+                            'access': encrypt_text(str(access_token)),
                         }
                     }
                     return response.Response(response_data , status= status.HTTP_200_OK)
@@ -159,3 +169,13 @@ class LoginFaceEmbeddedView(generics.GenericAPIView):
         else:return response.Response(
             serializers.custom_error_message(serializer.errors)
         )
+        
+        
+        
+class ChechAuth(generics.GenericAPIView):
+    def get(self , request , *args , **kwargs):
+        return response.Response({
+            'status_code':200 , "message":"success" , "data":{
+                "user":self.request.user.username
+            }
+        })
