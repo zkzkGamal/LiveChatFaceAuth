@@ -15,3 +15,5 @@ channels[daphne]
 rest_framework_simplejwt==0.0.2
 djangorestframework_simplejwt==5.3.1
 mysqlclient
+django-filter
+faiss-cpu
