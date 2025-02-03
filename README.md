@@ -56,3 +56,5 @@ The app uses face_recognition to compare the facial features with the stored one
 
 #### Real-Time Messaging
 The app uses WebSockets for real-time chat between users. Messages will be sent instantly as they are typed, with no need to refresh the page.
+
+### ensure you have my sql in you device else DATABASE in settings to be DATABASE = {}
